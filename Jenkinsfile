@@ -29,15 +29,17 @@ pipeline {
 
         stage('Frontend Install') {
             steps {
-                dir('NextGen-Medicine-Recommendation')
-                sh 'npm install'
+                dir('NextGen-Medicine-Recommendation') {
+                    sh 'npm install'
+                }   
             }
         }
 
         stage('Frontend Build') {
             steps {
-                dir('NextGen-Medicine-Recommendation')
-                sh 'npm run build'
+                dir('NextGen-Medicine-Recommendation') {
+                    sh 'npm run build'
+                }
             }
         }
 
