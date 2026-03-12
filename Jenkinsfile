@@ -36,6 +36,7 @@ pipeline {
 
         stage('Frontend Build') {
             steps {
+                dir('NextGen-Medicine-Recommendation')
                 sh 'npm run build'
             }
         }
