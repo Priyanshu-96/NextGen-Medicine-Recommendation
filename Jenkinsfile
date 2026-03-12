@@ -7,71 +7,86 @@ pipeline {
 
     stages {
 
-        stage('Clear Worspace') {
+        stage('Clean Workspace') {
             steps {
-                sh 'rm -Rf *'
+                sh 'rm -rf *'
             }
         }
 
-        stage('Clone Repo') {
+        stage('Clone Repository') {
             steps {
-                sh 'git clone $REPO_URL'
+                sh 'git clone $REPO_URL .'
             }
         }
 
-        stage('Check Node Env') {
+        stage('Check System Environment') {
             steps {
                 sh 'node -v'
                 sh 'npm -v'
+                sh 'python3 --version'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Frontend Install') {
             steps {
-                echo "Installing dependencies..."
-                dir('NextGen-Medicine-Recommendation') {
+                sh 'npm install'
+            }
+        }
+
+        stage('Frontend Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Verify Frontend Build') {
+            steps {
+                sh '''
+                if [ ! -d "build" ]; then
+                    echo "Frontend build folder missing"
+                    exit 1
+                fi
+                '''
+            }
+        }
+
+        stage('Backend Validation') {
+            steps {
+                dir('backend') {
                     sh 'npm install'
+                    sh 'node -c server.js'
                 }
             }
         }
 
-
-        stage('Build Project') {
+        stage('Python Service Validation') {
             steps {
-                echo "Building project..."
-                dir('NextGen-Medicine-Recommendation') {
-                    sh 'npm run build'
+                dir('python-microservice') {
+                    sh 'pip3 install -r requirements.txt'
+                    sh 'python3 -m py_compile main.py'
                 }
             }
         }
 
-        stage('Verify Build Folder') {
+        stage('Dataset Check') {
             steps {
-                dir('NextGen-Medicine-Recommendation') {
-                    sh '''
-                    if [ ! -d "dist" ]; then
-                        echo "Build folder not found. Build failed."
-                        exit 1
-                    fi
-                    '''
-                }
+                sh '''
+                if [ ! -d "datasets" ]; then
+                    echo "Datasets folder missing"
+                    exit 1
+                fi
+                '''
             }
         }
-        stage('Workspace Info') {
-            steps {
-                echo "THIS STAGE IS RUNNING"
-                sh 'pwd'
-                sh 'ls -la'
-            }
-        }
+
     }
 
     post {
         success {
-            echo "Build Successful ✅"
+            echo "CI Pipeline Passed"
         }
         failure {
-            echo "Build Failed ❌"
+            echo "CI Pipeline Failed"
         }
         always {
             echo "Pipeline Finished"
