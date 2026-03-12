@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = "https://github.com/Priyanshu-96/Personal-Portfolio.git"
+        REPO_URL = "https://github.com/Priyanshu-96/NextGen-Medicine-Recommendation.git"
     }
 
     stages {
@@ -29,7 +29,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo "Installing dependencies..."
-                dir('Personal-Portfolio') {
+                dir('NextGen-Medicine-Recommendation') {
                     sh 'npm install'
                 }
             }
@@ -39,8 +39,7 @@ pipeline {
         stage('Build Project') {
             steps {
                 echo "Building project..."
-                dir('Personal-Portfolio/portfolio-vite') {
-                    sh 'npm install typescript'
+                dir('NextGen-Medicine-Recommendation') {
                     sh 'npm run build'
                 }
             }
@@ -48,7 +47,7 @@ pipeline {
 
         stage('Verify Build Folder') {
             steps {
-                dir('Personal-Portfolio/portfolio-vite') {
+                dir('NextGen-Medicine-Recommendation') {
                     sh '''
                     if [ ! -d "dist" ]; then
                         echo "Build folder not found. Build failed."
