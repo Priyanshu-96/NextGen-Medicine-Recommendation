@@ -54,7 +54,7 @@ pipeline {
             steps {
                 dir('backend') {
                     sh 'npm install'
-                    sh 'node -c server.js'
+                    sh 'node -c index.js'
                 }
             }
         }
