@@ -15,7 +15,7 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                sh 'git clone $REPO_URL .'
+                sh 'git clone $REPO_URL'
             }
         }
 
