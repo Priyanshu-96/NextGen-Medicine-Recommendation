@@ -29,6 +29,7 @@ pipeline {
 
         stage('Frontend Install') {
             steps {
+                dir('NextGen-Medicine-Recommendation')
                 sh 'npm install'
             }
         }
@@ -52,7 +53,7 @@ pipeline {
 
         stage('Backend Validation') {
             steps {
-                dir('backend') {
+                dir('NextGen-Medicine-Recommendation/backend') {
                     sh 'npm install'
                     sh 'node -c index.js'
                 }
@@ -61,7 +62,7 @@ pipeline {
 
         stage('Python Service Validation') {
             steps {
-                dir('python-microservice') {
+                dir('NextGen-Medicine-Recommendation/python-microservice') {
                     sh 'pip3 install -r requirements.txt'
                     sh 'python3 -m py_compile main.py'
                 }
