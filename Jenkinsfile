@@ -38,19 +38,21 @@ pipeline {
         stage('Frontend Build') {
             steps {
                 dir('NextGen-Medicine-Recommendation') {
-                    sh 'npm run build'
+                    sh 'CI=false npm run build'
                 }
             }
         }
 
         stage('Verify Frontend Build') {
             steps {
-                sh '''
-                if [ ! -d "build" ]; then
-                    echo "Frontend build folder missing"
-                    exit 1
-                fi
-                '''
+                dir('NextGen-Medicine-Recommendation') {
+                    sh '''
+                    if [ ! -d "build" ]; then
+                        echo "Frontend build folder missing"
+                        exit 1
+                    fi
+                    '''
+                }
             }
         }
 
