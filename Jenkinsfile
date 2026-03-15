@@ -67,7 +67,7 @@ pipeline {
 
         stage('Python Service Validation') {
             steps {
-                dir('NextGen-Medicine-Recommendation/python-microservice') {
+                dir('NextGen-Medicine-Recommendation/python_microservice') {
                     sh '''
                     python3 -m venv venv
                     . venv/bin/activate
