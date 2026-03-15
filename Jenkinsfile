@@ -68,8 +68,12 @@ pipeline {
         stage('Python Service Validation') {
             steps {
                 dir('NextGen-Medicine-Recommendation/python-microservice') {
-                    sh 'pip3 install -r requirements.txt'
-                    sh 'python3 -m py_compile main.py'
+                    sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install -r requirements.txt
+                    python -m py_compile main.py
+                    '''
                 }
             }
         }
