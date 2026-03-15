@@ -81,6 +81,7 @@ pipeline {
 
         stage('Dataset Check') {
             steps {
+                dir('NextGen-Medicine-Recommendation/datasets') {
                 sh '''
                 if [ ! -d "datasets" ]; then
                     echo "Datasets folder missing"
