@@ -81,13 +81,15 @@ pipeline {
 
         stage('Dataset Check') {
             steps {
-                dir('NextGen-Medicine-Recommendation/datasets') {
-                sh '''
-                if [ ! -d "datasets" ]; then
-                    echo "Datasets folder missing"
-                    exit 1
-                fi
-                '''
+                dir('NextGen-Medicine-Recommendation') {
+                    sh '''
+                    if [ ! -d "datasets" ]; then
+                        echo "Datasets folder missing"
+                        exit 1
+                    else
+                        echo "Datasets folder exists"
+                    fi
+                    '''
                 }
             }
         }
